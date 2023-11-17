@@ -1,11 +1,16 @@
 from datetime import datetime, timedelta
-
+from enum import Enum
 from fastapi import FastAPI
 from pydantic import BaseModel
 from utils.db import db_getSaleData, db_getAllSalesData, db_getPeriodicSalesData, fetchCompareData \
     , fetch_category_sales_data, getInventory, db_inventory_logs,db_update_inventory,db_get_update_level
 
 app = FastAPI()
+class Period(str, Enum):
+    daily = "daily"
+    week = "week"
+    month = "month"
+    annual = "annual"
 
 class Inventory_logs(BaseModel):
     quantity: int
@@ -23,7 +28,7 @@ def getAllSaleData():
 
 
 @app.get('/getperiodicRevenue')
-def getRevenue(start_date, end_date, periodicity, product_id=None):
+def getRevenue(start_date, end_date, periodicity: Period, product_id=None):
     response = db_getPeriodicSalesData(start_date, end_date, periodicity, product_id)
     return response
 

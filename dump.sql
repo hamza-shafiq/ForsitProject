@@ -34,7 +34,7 @@ CREATE TABLE `alembic_version` (
 
 LOCK TABLES `alembic_version` WRITE;
 /*!40000 ALTER TABLE `alembic_version` DISABLE KEYS */;
-INSERT INTO `alembic_version` VALUES ('766c6af3b106');
+INSERT INTO `alembic_version` VALUES ('c2a2dadd070d');
 /*!40000 ALTER TABLE `alembic_version` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -49,7 +49,7 @@ CREATE TABLE `category` (
   `id` int NOT NULL AUTO_INCREMENT,
   `category_name` text,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=78 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -58,7 +58,7 @@ CREATE TABLE `category` (
 
 LOCK TABLES `category` WRITE;
 /*!40000 ALTER TABLE `category` DISABLE KEYS */;
-INSERT INTO `category` VALUES (1,'Bags'),(2,'Laptops'),(3,'Mobile'),(4,'Smart Watch'),(5,'Charger');
+INSERT INTO `category` VALUES (1,'Bags'),(2,'Laptop'),(3,'Mobile'),(4,'Smart Watch'),(5,'Cloth'),(6,'Charger');
 /*!40000 ALTER TABLE `category` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -73,8 +73,11 @@ CREATE TABLE `inventory` (
   `id` int NOT NULL AUTO_INCREMENT,
   `Quantity` int DEFAULT NULL,
   `min_quantity` int DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `product_id` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `product_id` (`product_id`),
+  CONSTRAINT `inventory_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -83,7 +86,7 @@ CREATE TABLE `inventory` (
 
 LOCK TABLES `inventory` WRITE;
 /*!40000 ALTER TABLE `inventory` DISABLE KEYS */;
-INSERT INTO `inventory` VALUES (1,309,500),(2,400,200),(3,300,200),(4,100,200),(5,1000,200),(6,500,200),(7,100,200);
+INSERT INTO `inventory` VALUES (1,200,500,1),(2,2090,500,1),(3,0,500,2),(4,990,500,2),(5,400,500,3),(6,700,500,4),(7,500,500,5),(8,100,500,6);
 /*!40000 ALTER TABLE `inventory` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -103,7 +106,7 @@ CREATE TABLE `inventory_log` (
   PRIMARY KEY (`id`),
   KEY `inventory_id` (`inventory_id`),
   CONSTRAINT `inventory_log_ibfk_1` FOREIGN KEY (`inventory_id`) REFERENCES `inventory` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -112,7 +115,7 @@ CREATE TABLE `inventory_log` (
 
 LOCK TABLES `inventory_log` WRITE;
 /*!40000 ALTER TABLE `inventory_log` DISABLE KEYS */;
-INSERT INTO `inventory_log` VALUES (5,200,'in','2023-11-17 14:00:30',1),(6,300,'in','2023-11-17 14:00:30',2),(7,100,'out','2023-11-17 14:00:30',2),(8,100,'out','2023-11-17 14:00:30',4);
+INSERT INTO `inventory_log` VALUES (1,100,'in','2023-11-17 16:26:37',1),(2,50,'in','2023-11-17 16:26:37',2),(3,100,'out','2023-11-17 16:26:37',3),(4,10,'out','2023-11-17 16:26:37',4),(5,10,'out','2023-11-17 16:26:37',2),(7,50,'in','2023-11-17 16:26:37',2);
 /*!40000 ALTER TABLE `inventory_log` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -141,35 +144,8 @@ CREATE TABLE `product` (
 
 LOCK TABLES `product` WRITE;
 /*!40000 ALTER TABLE `product` DISABLE KEYS */;
-INSERT INTO `product` VALUES (1,'Laptop Bag','Good Quality',200,1),(2,'Shoulder Bag','Good Quality',1000,1),(3,'Hand Bag','Good Quality',300,1),(4,'Carry Bag','Good Quality',100,1),(5,'Vivo','Good Quality',10000,3),(6,'Dell','Good Quality',200000,2),(7,'Apple','Good Quality',450000,2);
+INSERT INTO `product` VALUES (1,'Laptop Bags','Good Quality',1000,1),(2,'Shoulder Bags','Good Quality',5000,1),(3,'Hand Bags','Good Quality',2400,1),(4,'Vivo','Good Quality',100000,3),(5,'Dell','Good Quality',200000,2),(6,'Apple','Good Quality',500000,2),(7,'iPhone','Good Quality',850000,3);
 /*!40000 ALTER TABLE `product` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `product_inventory`
---
-
-DROP TABLE IF EXISTS `product_inventory`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `product_inventory` (
-  `product_id` int DEFAULT NULL,
-  `inventory_id` int DEFAULT NULL,
-  KEY `product_id` (`product_id`),
-  KEY `inventory_id` (`inventory_id`),
-  CONSTRAINT `product_inventory_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`),
-  CONSTRAINT `product_inventory_ibfk_2` FOREIGN KEY (`inventory_id`) REFERENCES `inventory` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `product_inventory`
---
-
-LOCK TABLES `product_inventory` WRITE;
-/*!40000 ALTER TABLE `product_inventory` DISABLE KEYS */;
-INSERT INTO `product_inventory` VALUES (1,1),(1,2),(2,1),(3,3),(4,4),(2,2),(5,1);
-/*!40000 ALTER TABLE `product_inventory` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -187,7 +163,7 @@ CREATE TABLE `sales` (
   PRIMARY KEY (`id`),
   KEY `product_id` (`product_id`),
   CONSTRAINT `sales_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -196,7 +172,7 @@ CREATE TABLE `sales` (
 
 LOCK TABLES `sales` WRITE;
 /*!40000 ALTER TABLE `sales` DISABLE KEYS */;
-INSERT INTO `sales` VALUES (1,1000,'2023-10-09 00:00:00',1),(2,400,'2023-10-10 00:00:00',1),(3,300,'2023-09-09 00:00:00',2),(4,100,'2023-11-09 00:00:00',3),(5,400,'2023-10-17 00:00:00',4),(6,50,'2023-10-09 00:00:00',5);
+INSERT INTO `sales` VALUES (1,100,'2023-09-09 00:00:00',1),(2,100,'2023-09-16 00:00:00',1),(3,100,'2023-10-17 00:00:00',2),(4,200,'2023-11-09 00:00:00',3),(5,100,'2023-10-19 00:00:00',4),(6,100,'2023-10-09 00:00:00',5),(7,50,'2023-10-09 00:00:00',5),(8,100,'2023-10-09 00:00:00',6);
 /*!40000 ALTER TABLE `sales` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -209,4 +185,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-11-17 19:03:11
+-- Dump completed on 2023-11-17 21:28:27

@@ -23,14 +23,6 @@ except ImportError:
 
 
 
-product_inventory_association_table = Table(
-    'product_inventory',
-    Base.metadata,
-    Column('product_id', Integer, ForeignKey('product.id')),
-    Column('inventory_id', Integer, ForeignKey('inventory.id'))
-)
-
-
 class Category(Base):
     __tablename__ = 'category'
 
@@ -47,7 +39,6 @@ class Product(Base):
     description = Column(Text)
     price = Column(Integer)
 
-    inventory = relationship('Inventory', secondary=product_inventory_association_table,back_populates="product")
     category_id = Column(Integer, ForeignKey(Category.id))
     category = relationship("Category", foreign_keys=[category_id])
 class Sales(Base):
@@ -66,7 +57,8 @@ class Inventory(Base):
     id = Column(Integer, primary_key=True)
     Quantity = Column(Integer)
     min_quantity = Column(Integer)
-    product = relationship('Product', secondary=product_inventory_association_table,back_populates="inventory")
+    product_id = Column(Integer, ForeignKey(Product.id))
+    product = relationship("Product", foreign_keys=[product_id])
 
 
 class InventoryLog(Base):

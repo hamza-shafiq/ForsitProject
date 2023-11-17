@@ -195,7 +195,6 @@ def getInventory(inventory_id, product_id):
         if inventories:
             product = (
                 s.query(Product)
-                .filter(Product.inventory.contains(inventories))  # Use contains to check for membership
                 .filter(Product.id == product_id)
                 .first()
             )
