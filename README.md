@@ -34,7 +34,7 @@ alembic --name dev upgrade head
 To get the demo data of tables
 
 ```sh
-mysql -u mac -p forsit < dump.sql
+mysql -u mac -p <database_name> < dump.sql
 ```
 
 ## Infrastructure
@@ -42,9 +42,6 @@ mysql -u mac -p forsit < dump.sql
 ![high level FastAPI diagram](assets/FastApi.png?raw=true)
 
 ## Deployment
-
-
-*NOTE: not all services are converted to the new method yet*
 
 Services are deployed using a FastApi configuration. To set up fastApi and required plugins:
 
