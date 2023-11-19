@@ -14,7 +14,7 @@ This includes these services, using fastApi:
 
 ## Database
 
-All these endpoint use the msql database and relationship between tables
+All these endpoints use the msql database and relationship between tables
 The client uses sqlalchemy and alembic to manage migrations.
 Before you use alembic make sure you have updated DB credentials in your local `.env` file
 NOTE: Check IS_OFFLINE=true in your `.env` file
@@ -28,11 +28,10 @@ alembic --name dev revision --autogenerate -m "<migration_msg>"
 To upgrade all migrations:
 ```sh
 cd migrations
-alembic --name dev upgrade head
+alembic upgrade head
 ```
 
-To get the demo data of tables
-
+In order to plug the test data in your database, use the following command to upload the attached dump file.
 ```sh
 mysql -u mac -p <database_name> < dump.sql
 ```
@@ -41,7 +40,7 @@ mysql -u mac -p <database_name> < dump.sql
 
 ![high level FastAPI diagram](assets/FastApi.png?raw=true)
 
-## Deployment
+## Project Setup
 
 Services are deployed using a FastApi configuration. To set up fastApi and required plugins:
 
@@ -68,7 +67,7 @@ Install the required packages:
 $ pip install -r requirements.txt
 ```
 
-To deploy this App
+To run this App
 
 ```bash
 $ uvicorn main:app --reload

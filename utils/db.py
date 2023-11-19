@@ -21,12 +21,9 @@ DB_HOST = environ.get("DB_HOST")
 DB_PORT = environ.get("DB_PORT")
 DB_DATABASE = environ.get("DB_DATABASE")
 DATABASE_URI = f'mysql+mysqlconnector://{DB_USER}:{DB_PASS}@{DB_HOST}:{DB_PORT}/{DB_DATABASE}'
-print('-------------------')
-print(DATABASE_URI)
-print('-------------------')
+
 engine = create_engine(DATABASE_URI, poolclass=NullPool, echo=False)
 Session = sessionmaker(bind=engine)
-
 
 # # Commented because causing Too many connections
 # # change the table store_product_review data encoding, to support the inserted data encoding type
@@ -47,7 +44,7 @@ def session_scope():
         session.close()
 
 
-def db_getSaleData(product_id, start_date, end_date):
+def get_sale_data(product_id, start_date, end_date):
     sales = []
     with session_scope() as s:
         if product_id:
@@ -141,7 +138,6 @@ def db_getPeriodicSalesData(start_date, end_date, periodicity, product_id):
 
 
 def fetchCompareData(start_date, end_date, categories):
-    sales = []
     with session_scope() as s:
         category = s.query(Category).filter(Category.category_name == categories).first()
         if category:
@@ -154,7 +150,6 @@ def fetchCompareData(start_date, end_date, categories):
                     (func.date(Sales.date) <= end_date)
                 )
             )
-            print(data)
         sales_data = data.with_entities(func.sum(Sales.amount)).scalar()
 
     sales_data = int(sales_data) if sales_data else 0
