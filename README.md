@@ -1,16 +1,15 @@
-# FORSIT Test Project
+# Inventory & Sales API
 
-This repository is responsible for FORSIT Test Project.
-
-## Endpoint
+## Endpoints
 
 This includes these services, using fastApi:
-* ***`getSalesData`***: This Endpoint responsible for retrieve and filter all sales data 
-* ***`getperiodicRevenue`***:  This Endpoint responsible for analyze sales data on annually,weekly,daily and monthly basis 
-* ***`getCompareData`***: The endpoint give the comparison across different period and categories
-* ***`getSale`***: This endpoint filter the sale data for category or product
-* ***`getInventoryStatus`***: This endpoint retrieve the inventory status of product e.g. out of stock, available
-* ***`getupdate`***: This endpoint track changes over time
+* ***`/get-all-sales-data`***: This Endpoint responsible for retrieve and filter all sales data 
+* ***`/get-periodic-revenue`***:  This Endpoint responsible for analyze sales data on annually,weekly,daily and monthly basis 
+* ***`/get-compare-data`***: The endpoint give the comparison across different period and categories
+* ***`/get-sales`***: This endpoint filter the sale data for category or product
+* ***`/get-inventory-status`***: This endpoint retrieve the inventory status of product e.g. out of stock, available
+* ***`/update-inventory`***: This endpoint to update inventory
+* ***`/get-updates/{inventory_id}`***: This endpoint track changes over time
 
 ## Database
 

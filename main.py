@@ -87,7 +87,7 @@ def getInventoryStatus(inventory_id, product_id):
     return response
 
 
-@app.post('/inventory-update')
+@app.post('/update-inventory')
 def updateInventory(inventory: InventoryLogs):
     """
     This URL updates the inventory
